@@ -64,6 +64,14 @@ for message in st.session_state.messages:
 question = st.chat_input("Enter your question")
 
 if question and len(selected_debaters) >= 2:
+    # Input validation for security
+    if len(question) > 5000:
+        st.error("⚠️ Question is too long. Please limit your question to 5000 characters.")
+        st.stop()
+    if len(question.strip()) < 3:
+        st.error("⚠️ Question is too short. Please provide a more detailed question.")
+        st.stop()
+    
     st.session_state.messages.append({"role": "user", "content": question})
     with st.chat_message("user"):
         st.write(question)
@@ -114,8 +122,14 @@ if question and len(selected_debaters) >= 2:
                 final_text = f"**❌ No Consensus:**\n\n{verdict}"
             st.session_state.messages.append({"role": "assistant", "content": final_text})
         except Exception as e:
-            st.error(f"An error occurred during execution: {e}")
+            # Log full error for debugging but show safe message to user
+            import traceback
+            error_details = traceback.format_exc()
+            st.error("An error occurred while processing your request.")
             st.info("Tip: Check that you provided the API Key for the specific models you selected.")
+            # Show error details in expandable section for debugging
+            with st.expander("Error Details (for debugging)"):
+                st.code(error_details)
 
 elif question and len(selected_debaters) < 2:
     st.error("Please select at least 2 models in the sidebar to start the debate.")
