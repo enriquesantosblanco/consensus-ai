@@ -84,10 +84,31 @@ The system utilizes a cyclic state graph (`StateGraph`) following this logical f
 ```text
 ai-consensus-validator/
 ├── app.py              # Frontend (Streamlit UI & Session Management)
-├── graph_validator.py          # Graph Logic (LangGraph, Nodes & Client Routing)
+├── graph_validator.py  # Graph Logic (LangGraph, Nodes & Client Routing)
 ├── requirements.txt    # Python Dependencies
+├── SECURITY.md         # Security Analysis & Best Practices
+├── .gitignore          # Git ignore rules
 └── README.md           # Documentation
 ```
+
+## 🔒 Security
+
+This project has been analyzed for security risks. Key findings:
+
+✅ **No hardcoded credentials** - All API keys are user-provided
+✅ **No malicious code** - Clean codebase with no suspicious patterns
+✅ **Legitimate APIs only** - Connects only to official AI provider APIs
+⚠️ **Dependency security** - Protobuf vulnerability has been fixed
+
+**For detailed security analysis, see [SECURITY.md](SECURITY.md)**
+
+### Security Best Practices for Users:
+1. **Never commit API keys** to version control
+2. Use separate API keys for this application
+3. Set spending limits on your API provider dashboards
+4. Monitor your API usage regularly
+5. Keep dependencies updated: `pip install -r requirements.txt --upgrade`
+6. For production, use Streamlit's secrets management
 
 ## 🤝 Contributions
 
